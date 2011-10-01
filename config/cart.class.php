@@ -12,16 +12,26 @@ class Cart {
 	}
 	
 	private function cartSetup() {
-		if ($this->cartExists()) {
+		if ($this->cartExists() == false) {
 			$_SESSION['cart'] = array();
 			$this->cart = $_SESSION['cart'];
 		}
 	}
 	
 	private function cartExists() {
+		if (isset($this->cart)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public function addItem() {
 	
 	}
 	
 }
+
+$cart = new Cart();
 
 ?>

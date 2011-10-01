@@ -5,7 +5,6 @@ session_start();
 
 class Cart {
 
-	public $cart = array();
 	public $totalPrice;
 	
 	private $itemQuery;
@@ -22,8 +21,8 @@ class Cart {
 	
 	public function removeItem($product_id) {
 		if (isset($product_id)) {
-			if (array_key_exists($product_id, $this->cart)) {
-				unset($this->cart[$product_id]);
+			if (array_key_exists($product_id, $_SESSION['cart'])) {
+				unset($_SESSION['cart'][$product_id]);
 			}
 		}
 	}
@@ -56,15 +55,20 @@ class Cart {
 		$this->totalPrice = 0;
 	}
 	
+	public function showCartArray() {
+		echo "<pre>";
+		print_r($_SESSION);
+		echo "</pre>";
+	}
+	
 	private function cartSetup() {
 		if ($this->cartExists() == false) {
 			$_SESSION['cart'] = array();
-			$this->cart = $_SESSION['cart'];
 		}
 	}
 	
 	private function cartExists() {
-		if (isset($this->cart)) {
+		if (isset($_SESSION['cart'])) {
 			return true;
 		} else {
 			return false;
@@ -74,5 +78,6 @@ class Cart {
 }
 
 $cart = new Cart();
+$cart->showCartArray();
 
 ?>

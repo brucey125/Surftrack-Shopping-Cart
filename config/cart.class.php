@@ -8,6 +8,7 @@ class Cart {
 	public $totalPrice;
 	
 	private $itemQuery;
+	private $itemRows;
 	
 	public function __construct() {
 		$this->cartSetup();
@@ -16,6 +17,24 @@ class Cart {
 	public function addItem($product_id) {
 		if (isset($product_id)) {			
 			$this->itemQuery = mysql_query("SELECT * FROM products WHERE product_id = '{$product_id}'");
+			$this->itemRows = mysql_num_rows($this->itemQuery);
+			
+			if ($this->itemRows == 1) {
+				while ($row = mysql_fetch_assoc($this->itemQuery)) {
+					if ($this->cartExists()) {
+						if (array_key_exists($product_id, $_SESSION['cart'])) {
+							$_SESSION['cart'][$product_id]['product_quantity']++;
+						} else {
+							$_SESSION['cart'][$product_id]['product_id'] = $product_id;
+							$_SESSION['cart'][$product_id]['product_name'] = $row['product_name'];
+							$_SESSION['cart'][$product_id]['product_price'] = $row['product_price'];
+							$_SESSION['cart'][$product_id]['product_quantity'] = 1;
+						}
+					} else {
+						$this->cartSetup();
+					}
+				}
+			}
 		}
 	}
 	
@@ -57,7 +76,7 @@ class Cart {
 	
 	public function showCartArray() {
 		echo "<pre>";
-		print_r($_SESSION);
+		print_r($_SESSION['cart']);
 		echo "</pre>";
 	}
 	

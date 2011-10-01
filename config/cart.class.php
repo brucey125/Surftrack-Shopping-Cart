@@ -6,27 +6,12 @@ session_start();
 class Cart {
 
 	public $cart = array();
-	public $product_id;
+	public $totalPrice;
 	
 	private $itemQuery;
 	
 	public function __construct() {
 		$this->cartSetup();
-	}
-	
-	private function cartSetup() {
-		if ($this->cartExists() == false) {
-			$_SESSION['cart'] = array();
-			$this->cart = $_SESSION['cart'];
-		}
-	}
-	
-	private function cartExists() {
-		if (isset($this->cart)) {
-			return true;
-		} else {
-			return false;
-		}
 	}
 	
 	public function addItem($product_id) {
@@ -46,6 +31,43 @@ class Cart {
 	public function setItemQuantity($product_id, $quantity) {
 		if (isset($product_id) && isset($quantity)) {
 		
+		}
+	}
+	
+	public function getItemName($product_id) {
+		if (isset($product_id)) {
+		
+		}
+	}
+	
+	public function getItemPrice($product_id) {
+		if (isset($product_id)) {
+		
+		}
+	}
+	
+	public function getItemQuantity($product_id) {
+		if (isset($product_id)) {
+		
+		}
+	}
+	
+	public function getTotalPrice() {
+		$this->totalPrice = 0;
+	}
+	
+	private function cartSetup() {
+		if ($this->cartExists() == false) {
+			$_SESSION['cart'] = array();
+			$this->cart = $_SESSION['cart'];
+		}
+	}
+	
+	private function cartExists() {
+		if (isset($this->cart)) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 	

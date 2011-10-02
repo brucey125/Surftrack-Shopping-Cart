@@ -1,6 +1,6 @@
 <?php
 
-require_once "cart.class.php";
+require_once("cart.class.php");
 session_start();
 $Cart = new Cart();
 

@@ -1,3 +1,8 @@
+<?php
+
+require_once("config/connect.php");
+
+?>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -11,21 +16,9 @@
 
 <body>
 
-	<form action="config/cart.php?action=addItem" method="post">
-		<input type="text" name="item_id" />
-		<input type="submit" name="submit" value="Submit" />
-	</form>
-	
-	<form action="config/cart.php?action=removeItem" method="post">
-		<input type="text" name="item_id" />
-		<input type="submit" name="submit" value="Submit" />
-	</form>
-	
-	<form action="config/cart.php?action=setItemQuantity" method="post">
-		<input type="text" name="item_id" />
-		<input type="text" name="quantity" />
-		<input type="submit" name="submit" value="Submit" />
-	</form>
+	<?php
+		
+	?>
 
 </body>
 </html>

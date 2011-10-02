@@ -6,7 +6,7 @@ $config['db_localhost']										= "localhost";
 $config['db_remote_host']									= "";	
 $config['db_name']											= "ale&cakes";	
 
-$config['paypal_account']									= "brucey125@hotmail.co.uk";
 $config['paypal_url']										= "https://www.paypal.co.uk/cgi-bin/webscr";
-	
+$config['paypal_account']									= "brucey125@hotmail.co.uk";
+
 ?>

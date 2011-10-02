@@ -54,7 +54,11 @@ class Cart {
 	public function setItemQuantity($product_id, $quantity) {
 		if (isset($product_id) && isset($quantity)) {
 			if (array_key_exists($product_id, $_SESSION['cart'])) {
-				$_SESSION['cart'][$product_id]['product_quantity'] = $quantity;
+				if ($quantity == 0) {
+					unset($_SESSION['cart'][$product_id]);
+				} else {
+					$_SESSION['cart'][$product_id]['product_quantity'] = $quantity;
+				}
 			}
 		}
 	}
@@ -121,6 +125,10 @@ class Cart {
 			
 			echo $this->htmlCart;
 		}
+	}
+	
+	public static function getProducts() {
+		echo "Products";
 	}
 	
 	private function cartSetup() {

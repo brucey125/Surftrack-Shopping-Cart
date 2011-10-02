@@ -32,6 +32,5 @@ if (isset($_GET['action'])) {
 }
 
 $Cart->showCartArray();
-echo $Cart->getTotalPrice();
 
 ?>

@@ -1,6 +1,6 @@
 <?php
 
-require_once("config/connect.php");
+require_once("config/cart.class.php");
 
 ?>
 <!DOCTYPE HTML>
@@ -22,6 +22,7 @@ require_once("config/connect.php");
 			echo '<a href="config/cart.php?action=addItem&item_id='.$row['product_id'].'"><input type="button" id="'.$row['product_id'].'" value="Add '.$row['product_name'].'" /></a>';
 			echo '<a href="config/cart.php?action=removeItem&item_id='.$row['product_id'].'"><input type="button" id="'.$row['product_id'].'" value="Remove '.$row['product_name'].'" /><br /></a>';
 		}
+		Cart::getProducts();
 	?>
 
 </body>

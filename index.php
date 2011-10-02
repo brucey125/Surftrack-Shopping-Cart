@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>SUrftrack Shopping Cart</title>
+	<title>Surftrack Shopping Cart</title>
 	
 	<link type="text/css" rel="stylesheet" href="css/main.css" />
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
@@ -10,5 +10,8 @@
 </head>
 
 <body>
+
+	
+
 </body>
 </html>

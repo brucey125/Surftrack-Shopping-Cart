@@ -1,6 +1,22 @@
 <?php
 
-require_once("connect.php");
+/**
+ * Copyright 2011 Surftrack, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may obtain
+ * a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ */
+
+require_once "ac.connect.php";
 
 class Cart {
 
@@ -10,6 +26,8 @@ class Cart {
 	
 	private $itemQuery;
 	private $itemRows;
+	
+	private static $productQuery;
 	
 	public function __construct() {
 		$this->cartSetup();
@@ -37,6 +55,7 @@ class Cart {
 						}
 					} else {
 						$this->cartSetup();
+						$this->addItem($product_id);
 					}
 				}
 			}
@@ -109,15 +128,10 @@ class Cart {
 			
 			foreach ($_SESSION['cart'] as $cart) {
 				$this->htmlCart .= '
-				<tr>
-					<td>'.$cart['product_name'].'</td>
-					<td>&pound;'.number_format($cart['product_price'], 2).'</td>
-					<td>'.$cart['product_quantity'].'</td>
 					<input type="hidden" name="item_name_'.$this->count.'" value="'.$cart['product_name'].'" />
 					<input type="hidden" name="item_number_'.$this->count.'" value="'.$cart['product_id'].'" />
 					<input type="hidden" name="amount_'.$this->count.'" value="'.$cart['product_price'].'" />
 					<input type="hidden" name="quantity_'.$this->count.'" value="'.$cart['product_quantity'].'" />
-				</tr>
 				';
 				
 				$this->count++;
@@ -127,14 +141,56 @@ class Cart {
 		}
 	}
 	
+	public function emptyCart() {
+		if ($this->cartExists()) {
+			foreach ($_SESSION['cart'] as $cart) {
+				unset($_SESSION['cart'][$cart['product_id']]);
+			}
+		}
+	}
+	
 	public function destroyCart() {
 		if ($this->cartExists()) {
 			unset($_SESSION['cart']);
 		}
 	}
 	
-	public static function getProducts() {
-		echo "Products";
+	public static function getProducts($limitStart, $limitEnd, $category) {
+		self::$productQuery = mysql_query("SELECT * FROM products WHERE category_id = '{$category}' ORDER BY product_price DESC LIMIT {$limitStart}, {$limitEnd}");
+		$products = '';
+		
+		while ($rows = mysql_fetch_assoc(self::$productQuery)) {
+			$products .= '
+				<div class="productsHolder clear">
+					<div class="products">
+						<div class="left">
+							<a href="config/ac.product.php?product_id='.$rows['product_id'].'"><img src="images/product_example.png" alt="Photo" height="180" width="200" /></a>
+						</div> <!-- end left -->
+						<div class="right">
+							<div class="productContent">
+								<div class="productContentTop">
+									<div class="productTitle">
+										<a href="config/ac.product.php?product_id='.$rows['product_id'].'"><h1>'.$rows['product_name'].'</h1></a>
+									</div> <!-- end productTitle -->
+									<div class="productDescription">
+										<p>'.$rows['product_description'].'</p>
+									</div> <!-- end productDescription -->
+								</div> <!-- end productContentTop -->
+								<div class="productContentBottom">
+									<div class="productOrdering">
+										<h1 class="priceHolder payLeft">&pound;'.$rows['product_price'].'</h1>
+										<a href="config/ac.product.php?product_id='.$rows['product_id'].'" class="product_id_'.$rows['product_id'].'"><input type="button" class="button payRight" value="More Info" /></a>
+										<a href="config/ac.shop.php?action=addItem&product_id='.$rows['product_id'].'" class="product_id_'.$rows['product_id'].'"><input type="button" class="button payRight" value="Add to Cart" /></a>
+									</div> <!-- end productOrdering -->
+								</div> <!-- end productContentBottom -->
+							</div> <!-- end productContent -->
+						</div> <!-- end right -->
+					</div> <!-- end products -->
+				</div> <!-- end productsHolder clear -->
+			';
+		}
+		
+		echo $products;
 	}
 	
 	private function cartSetup() {

@@ -127,9 +127,16 @@ class Cart {
 		}
 	}
 	
+	public function destroyCart() {
+		if ($this->cartExists()) {
+			unset($_SESSION['cart']);
+		}
+	}
+	
 	public static function getProducts() {
 		echo "Products";
 	}
+	
 	
 	private function cartSetup() {
 		if ($this->cartExists() == false) {

@@ -137,7 +137,6 @@ class Cart {
 		echo "Products";
 	}
 	
-	
 	private function cartSetup() {
 		if ($this->cartExists() == false) {
 			$_SESSION['cart'] = array();
